@@ -70,7 +70,7 @@ function Navbar() {
         setSetting(false)
         // dispatch(logotUser())
         // cookie.remove('userID')
-        fetch('http://localhost:4000/user/logout',{
+        fetch('https://y-2-backend.onrender.com/user/logout',{
             method: 'get',
             credentials: 'include'
         })

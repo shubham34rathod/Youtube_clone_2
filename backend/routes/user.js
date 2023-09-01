@@ -49,9 +49,13 @@ router.post('/signIn',async(req,res)=>{
                 //     sameSite:'none'
                 // }).send()
                 // console.log('id is',other._id);
-                res.status(200).cookie('userID',other._id,{
-                    express:new Date(Date.now()+10000)
-                }).json([other,'login successfull'])
+
+
+                // res.status(200).cookie('userID',other._id,{
+                //     express:new Date(Date.now()+10000)
+                // }).json([other,'login successfull'])
+
+                res.status(200).json([other,'login successfull'])
             }
             else
             {
@@ -113,13 +117,15 @@ router.get('/get_user/:id',async(req,res)=>{
 
 //subscribe user
 
-router.get('/sub/:id',async(req,res)=>{
+router.get('/sub/:id/:userID',async(req,res)=>{
     try 
     {
         console.log('sub called');
         let id=req.params.id
-        let newSubscriber=req.cookies.userID
-        // console.log(newSubscriber,id);
+        let newSubscriber=req.params.userID
+        console.log(req.params);
+        // let newSubscriber=req.cookies.userID
+        console.log(newSubscriber,id);
         await userModel.findByIdAndUpdate(newSubscriber,{$push:{subscribedUsers:id}})
         await userModel.findByIdAndUpdate(id,{$inc:{subscribers:1}})
         res.status(200).json('Subscription successful')
@@ -132,11 +138,12 @@ router.get('/sub/:id',async(req,res)=>{
 
 //unsubscribe user
 
-router.get('/unsubscribe/:id',async(req,res)=>{
+router.get('/unsubscribe/:id/:userID',async(req,res)=>{
     try 
     {
         let id=req.params.id
-        let newSubscriber=req.cookies.userID
+        let newSubscriber=req.params.userID
+        // let newSubscriber=req.cookies.userID
         console.log('un_sub called');
         // console.log('un_sub called',newSubscriber,id);
         await userModel.findByIdAndUpdate(newSubscriber,{$pull:{subscribedUsers:id}})
@@ -151,11 +158,12 @@ router.get('/unsubscribe/:id',async(req,res)=>{
 
 //like video
 
-router.get('/like/:videoID',async(req,res)=>{
+router.get('/like/:videoID/:userID',async(req,res)=>{
     try 
     {
         let id=req.params.videoID
-        let currentUser=req.cookies.userID
+        let currentUser=req.params.userID
+        // let currentUser=req.cookies.userID
         console.log('like',id,currentUser);
         await videoModel.findByIdAndUpdate(id,{$addToSet:{likes:currentUser},$pull:{dislikes:currentUser}})
         res.status(200).json("The video has been liked.")
@@ -167,11 +175,12 @@ router.get('/like/:videoID',async(req,res)=>{
 })
 //dislike video
 
-router.get('/disLike/:videoID',async(req,res)=>{
+router.get('/disLike/:videoID/:userID',async(req,res)=>{
     try 
     {
         let id=req.params.videoID
-        let currentUser=req.cookies.userID
+        let currentUser=req.params.userID
+        // let currentUser=req.cookies.userID
         // console.log(id,currentUser);
         await videoModel.findByIdAndUpdate(id,{$addToSet:{dislikes:currentUser},$pull:{likes:currentUser}})
         res.status(200).json("The video has been disliked.")

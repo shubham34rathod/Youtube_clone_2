@@ -9,16 +9,16 @@ function RightVideos() {
     let navigate = useNavigate()
     let [randomVideo, setRandomVideo] = useState([])
 
-    let a = cookie.get('userID')
-    if (!a) {
-        navigate('/signIn')
-    }
+    // let a = cookie.get('userID')
+    // if (!a) {
+    //     navigate('/signIn')
+    // }
 
     //fetching random video...........
 
     useEffect(() => {
         async function fetchRandomVideo() {
-            await fetch(`/video/random_video`)
+            await fetch(`https://y-2-backend.onrender.com/video/random_video`)
                 .then((data) => data.json())
                 .then((res) => {
                     // console.log(res);

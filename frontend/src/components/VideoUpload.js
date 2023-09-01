@@ -10,10 +10,10 @@ function VideoUpload() {
 
     let userID = useSelector((state) => state.user.currentUser)
 
-    let a = cookie.get('userID')
-    if (!a) {
-        navigate('/signIn')
-    }
+    // let a = cookie.get('userID')
+    // if (!a) {
+    //     navigate('/signIn')
+    // }
 
     let [videoData, setVideoData] = useState({
         user_name: '',
@@ -94,7 +94,7 @@ function VideoUpload() {
     async function submitData() {
         // console.log(videoData);
         console.log(userID._id);
-        await fetch(`/video/addVideo/${userID._id}`, {
+        await fetch(`https://y-2-backend.onrender.com/video/addVideo/${userID._id}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
