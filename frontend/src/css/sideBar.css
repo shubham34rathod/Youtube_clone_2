@@ -1,0 +1,49 @@
+.parentBox:hover{
+    .sideBox::-webkit-scrollbar{
+        /* background-color: red; */
+        display: none;
+    }
+}
+.sideBox{
+    width: 16%;
+    border: 1px solid;
+    height: 651px;
+    overflow-y: scroll;
+    /* background-color: rgb(34, 34, 34); */
+}
+.sideBox::-webkit-scrollbar{
+    /* background-color: black; */
+    display: none;
+}
+.sideBox2{
+    width: 6%;
+    border: 1px solid;
+    height: 651px;
+}
+.sideOptionsBox{
+    display: flex;
+    margin: 20px;
+}
+.sideOptionsBox:hover{
+    cursor: grab;
+    background-color: rgb(78, 78, 78);
+    border-radius: 8px;
+}
+.sideTitle{
+    color: white;
+    margin-left: 15px;
+}
+.sideOptionsBox_2{
+    /* border: 1px solid white; */
+    /* width: 100%; */
+   text-align: center;
+   margin: 5px 0px 40px 0px;
+}
+.sideTitle_2{
+    color: white;
+    font-size: 12px;
+}
+.signInComment{
+    color: white;
+    font-size: 11px;
+}

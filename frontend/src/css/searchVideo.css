@@ -1,0 +1,48 @@
+.searchParenBox{
+    display: flex;
+}
+.sidebar_100{
+    width: 15%;
+}
+.seacrchChildBox{
+    width: 85%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.seacrchChildBox .sub_child{
+    width: 100%;
+    /* border: 1px solid red; */
+    height: 32%;
+    margin: 1%;
+    display: flex;
+}
+.fitVideo{
+    /* border: 1px solid red; */
+    height: 90%;
+    width: 45%;
+    margin-top: 10px;
+}
+.video_detail{
+    color: white;
+    margin: 0.2% 0px 0px 15px;
+    /* line-height: 15px */
+}
+#img_circle{
+    width: 10%;
+    height: 10%;
+    border: 1px solid white;
+}
+.user_detail{
+    display: flex;
+    /* border: 1px solid red; */
+    height: 20%;
+}
+.user_detail img{
+    width: 100%;
+    height: 100%;    
+    border-radius: 100px;
+}
+.img_div{
+    width: 4%;
+    /* background-color: aqua; */
+}
