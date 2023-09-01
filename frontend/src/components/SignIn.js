@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import {useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setUserData } from "./Redux/userSlice";
+import cookie from 'js-cookie'
 import '../css/signIn.css'
 import SideBar from "./SideBar";
 
@@ -49,7 +50,7 @@ function SignIn() {
     {
         e.preventDefault()
         if (type === 'signIn') {
-            fetch('/user/signIn', {
+            fetch('https://y-2-backend.onrender.com/user/signIn', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -63,6 +64,7 @@ function SignIn() {
                 if(data[1]==='login successfull')
                 {
                     dispatch(setUserData(data[0]))
+                    cookie.set('userID',data[0]._id)
                     // console.log(userInfo);
                     navigate('/')
                 }
@@ -70,7 +72,7 @@ function SignIn() {
             .catch(()=>console.log('signIn fetching error'))
         }
         if (type === 'signUp') {
-            fetch('/user/signUp', {
+            fetch('https://y-2-backend.onrender.com/user/signUp', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'

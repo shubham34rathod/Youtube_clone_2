@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, json, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
-import { setcurrentVideo, setcurrentUser, like, disLike,subscribtion } from "./Redux/userSlice";
+import { setcurrentVideo, setcurrentUser, like, disLike,subscribtion, logotUser } from "./Redux/userSlice";
+import cookie from 'js-cookie'
 import { format } from "timeago.js";
 import moment from 'moment'
 import '../css/videoView.css'
@@ -18,19 +19,21 @@ function VideoView() {
     let navigate=useNavigate()
 
     let dispatch=useDispatch()
+
+    let cookie_value=cookie.get('userID')
+    if(!cookie_value)
+    {
+        dispatch(logotUser())
+        navigate('/signIn')
+    }
+
+
     let currentVideo=useSelector((state)=>state.user.currentVideo)
     let currentUser=useSelector((state)=>state.user.currentUser)
     let currentVideoUser=useSelector((state)=>state.user.currentVideoUser)
 
     let [channel,setChannel]=useState({})
     let [randomVideo,setRandomVideo]=useState([])
-    // let [newComment,setNewComment]=useState({
-    //     userId:currentUser._id,
-    //     videoId:video_Current._id,
-    //     describtion:'',
-    //     user_profile:currentUser.profile_img,
-    //     user_name:currentUser.name
-    // })
     let [fetchComment,setFetchComment]=useState([])
     let [video_Current,setVideo_current]=useState({})
 
@@ -38,7 +41,7 @@ function VideoView() {
     useEffect(()=>{
         async function fetchVideo()
         {
-            await fetch(`/video/video/${location.state}`)
+            await fetch(`https://y-2-backend.onrender.com/video/video/${location.state}`)
             .then((data)=>data.json())
             .then((res)=>{
                 // console.log('current v',res);
@@ -49,7 +52,7 @@ function VideoView() {
 
             //fetching video owner.................
 
-            await fetch(`/user/get_user/${video_Current.userId}`)
+            await fetch(`https://y-2-backend.onrender.com/user/get_user/${video_Current.userId}`)
             .then((data)=>data.json())
             .then((res)=>{
                 // console.log('user',res);
@@ -74,7 +77,7 @@ function VideoView() {
     useEffect(()=>{
         async function fetchRandomVideo()
         {
-            await fetch(`/video/random_video`)
+            await fetch(`https://y-2-backend.onrender.com/video/random_video`)
             .then((data)=>data.json())
             .then((res)=>{
                 // console.log(res);
@@ -90,7 +93,7 @@ function VideoView() {
 
     async function handleLike()
     {
-        await fetch(`/user/like/${video_Current._id}`)
+        await fetch(`https://y-2-backend.onrender.com/user/like/${video_Current._id}/${cookie_value}`)
         .then((data)=>data.json())
         .then((data)=>console.log(data))
         .catch((error)=>console.log(error))
@@ -99,7 +102,7 @@ function VideoView() {
     }
     async function handleDislike()
     {
-        await fetch(`/user/disLike/${video_Current._id}`)
+        await fetch(`https://y-2-backend.onrender.com/user/disLike/${video_Current._id}/${cookie_value}`)
         .then((data)=>data.json())
         .then((data)=>console.log(data))
         .catch((error)=>console.log(error))
@@ -112,7 +115,7 @@ function VideoView() {
     async function handleComment()
     {
         console.log('new cooment',newComment,video_Current._id);
-        await fetch(`/comment/addComment`,{
+        await fetch(`https://y-2-backend.onrender.com/comment/addComment`,{
             method:'post',
             headers:{
                 'content-type':'application/json'
@@ -133,7 +136,7 @@ function VideoView() {
     useEffect(()=>{
         async function getComment()
         {
-            await fetch(`/comment/${video_Current._id}`)
+            await fetch(`https://y-2-backend.onrender.com/comment/${video_Current._id}`)
             .then((data)=>data.json())
             .then((res)=>{
                 // console.log('comments',res);
@@ -149,15 +152,15 @@ function VideoView() {
     async function handleSub()
     {
         (currentUser.subscribedUsers.includes(channel._id))?
-        await fetch(`/user/unsubscribe/${channel._id}`)
+        await fetch(`https://y-2-backend.onrender.com/user/unsubscribe/${channel._id}/${cookie_value}`)
         .then((data)=>data.json())
         .then((res)=>console.log(res))
         .catch((error)=>console.log(error))
         :
-        await fetch(`/user/sub/${channel._id}`)
+        await fetch(`https://y-2-backend.onrender.com/user/sub/${channel._id}/${cookie_value}`)
         .then((data)=>data.json())
         .then((res)=>{
-            // console.log(res)
+            console.log(res)
         })
         .catch((error)=>console.log(error))
 
@@ -170,7 +173,7 @@ function VideoView() {
     useEffect(()=>{
         async function handleView()
         {
-            await fetch(`/video/addView/${video_Current._id}`)
+            await fetch(`https://y-2-backend.onrender.com/video/addView/${video_Current._id}`)
             .then((data)=>data.json())
             .then((res)=>{
             console.log(res)

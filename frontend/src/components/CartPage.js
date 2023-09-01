@@ -25,13 +25,13 @@ function CartPage({type}) {
    //    navigate('/signIn')
    // }
 
-   let a=cookie.get('userID')
-   if(!a)
-   {
-      dispatch(logotUser())
-      navigate('/signIn')
+   // let a=cookie.get('userID')
+   // if(!a)
+   // {
+   //    dispatch(logotUser())
+   //    navigate('/signIn')
 
-   }
+   // }
    
 
    // let Cookiee = cookie.get('cookie')
@@ -44,7 +44,7 @@ function CartPage({type}) {
    
    useEffect(() => {
       async function fetchVideo() {
-         await fetch(`/video/${type}`)
+         await fetch(`https://y-2-backend.onrender.com/video/${type}`)
             .then((data) => data.json())
             .then((res) => {
                // console.log('videois',res);

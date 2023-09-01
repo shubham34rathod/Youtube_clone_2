@@ -13,10 +13,10 @@ function SearchVideo() {
 
     let navigate = useNavigate()
 
-    let a = cookie.get('userID')
-    if (!a) {
-        navigate('/signIn')
-    }
+    // let a = cookie.get('userID')
+    // if (!a) {
+    //     navigate('/signIn')
+    // }
 
     let location = useLocation()
     console.log('loc', location.state);
@@ -25,7 +25,7 @@ function SearchVideo() {
 
     useEffect(() => {
         async function getVideo() {
-            await fetch(`/video/search_video/${location.state}`)
+            await fetch(`https://y-2-backend.onrender.com/video/search_video/${location.state}`)
                 .then((data) => data.json())
                 .then((res) => {
                     // console.log('res',res);
