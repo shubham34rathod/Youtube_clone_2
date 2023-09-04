@@ -197,9 +197,9 @@ function Navbar() {
         {settingBtn &&
             <div className="settingBox" style={{ color: 'white' }}>
                 <div className="userImgBox">
-                    <img className='img-fluid' src={tmp_profileImg} alt="profile_img" id="profile_img" />
+                    <img className='img-fluid' src={userProfile} alt="profile_img" id="profile_img" />
                 </div>
-                <h6 className='my-2' style={{ textAlign: 'center' }}>Shubham Rathod</h6>
+                <h6 className='my-2' style={{ textAlign: 'center' }}>{userName.name}</h6>
                 <div id="logoutBox">
                     <button id='logoutBtn' onClick={logOut}>Logout</button>
                 </div>
