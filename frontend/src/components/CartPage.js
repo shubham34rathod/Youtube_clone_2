@@ -12,13 +12,13 @@ import HoverVideoPlayer from 'react-hover-video-player';
 import { useNavigate } from "react-router-dom";
 import userIcon from '../images/profile_img.jpg'
 
-function CartPage({type}) {
+function CartPage({ type }) {
 
    let navigate = useNavigate()
 
-   let dispatch=useDispatch()
+   let dispatch = useDispatch()
 
-   let loginStatus=useSelector((state)=>state.user.login)
+   let loginStatus = useSelector((state) => state.user.login)
    // console.log('status',loginStatus);
    // if(loginStatus===false)
    // {
@@ -32,25 +32,37 @@ function CartPage({type}) {
    //    navigate('/signIn')
 
    // }
-   
 
-   // let Cookiee = cookie.get('cookie')
+
+   let Cookies = cookie.get('userID')
    // console.log(Cookiee);
    let userName = useSelector((state) => state.user.currentUser)
 
    let [videos, setVideos] = useState([])
 
    //getting video for cart page
-   
+
    useEffect(() => {
       async function fetchVideo() {
-         await fetch(`https://y-2-backend.onrender.com/video/${type}`)
-            .then((data) => data.json())
-            .then((res) => {
-               // console.log('videois',res);
-               setVideos(res)
-            })
-            .catch((res) => console.log(res))
+         if (type==='sub_video') {
+            await fetch(`http://localhost:4000/video/${type}/${Cookies}`)
+            // await fetch(`https://y-2-backend.onrender.com/video/${type}/${Cookies}`)
+               .then((data) => data.json())
+               .then((res) => {
+                  console.log(`videois ${type}`, res);
+                  setVideos(res)
+               })
+               .catch((res) => console.log(res))
+         }
+         else {
+            await fetch(`https://y-2-backend.onrender.com/video/${type}`)
+               .then((data) => data.json())
+               .then((res) => {
+                  console.log(`videois ${type}`, res);
+                  setVideos(res)
+               })
+               .catch((res) => console.log(res))
+         }
       }
       fetchVideo()
    }, [type])
@@ -60,7 +72,7 @@ function CartPage({type}) {
    // {
    //     await fetch(`/video/update_video/$`)
    // }
-   
+
 
 
 
@@ -82,20 +94,18 @@ function CartPage({type}) {
          {/* style:width=200px */}
          <div style={{ width: '15%' }}><SideBar></SideBar></div>
          <div className="cartBox" style={{ color: 'white' }}>
-            {videos.map((data) =>
+            {(videos.length===0)? <h2 style={{fontFamily:'Oswald, sans-serif'}}>No videos</h2> : videos.map((data) =>
                <>
                   <div className="carts" onClick={() => {
-                        if(loginStatus===false)
-                        {
-                           alert('Please login')
-                           navigate('/signIn')
-                        }
-                        else
-                        {
-                           navigate('/videoView',{state:data._id})
-                        }
-                     }}>
-                  {/* <div className="carts" onClick={() => navigate('/videoView',{state:data.userId})}> */}
+                     if (loginStatus === false) {
+                        alert('Please login')
+                        navigate('/signIn')
+                     }
+                     else {
+                        navigate('/videoView', { state: data._id })
+                     }
+                  }}>
+                     {/* <div className="carts" onClick={() => navigate('/videoView',{state:data.userId})}> */}
                      <div className="videoBox">
                         <HoverVideoPlayer
                            videoSrc={data.video_url} style={{ height: '100%', }}
@@ -111,11 +121,11 @@ function CartPage({type}) {
                                  }}
                               />
                            }
-                           // controls
+                        // controls
                         />
                      </div>
                      <div className="subContent">
-                        <div className="subLogo"><img src={(data.user_profile==='')? icon_img:data.user_profile} alt="logo" /></div>
+                        <div className="subLogo"><img src={(data.user_profile === '') ? icon_img : data.user_profile} alt="logo" /></div>
                         <div className="subContent_2">
                            <div className="subHeading">{data.describtion}
                               {/* </div> */}
