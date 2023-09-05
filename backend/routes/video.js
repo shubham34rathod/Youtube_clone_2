@@ -133,15 +133,16 @@ router.get('/random_video',async(req,res)=>{
 
 //subscribe video
 
-router.get('/sub_video',async(req,res)=>{
+router.get('/sub_video/:userID',async(req,res)=>{
     try 
     {
         // console.log('sub called');
-        let id=req.cookies
+        // let id=req.cookies
+        let id=req.params.userID
         // console.log(id.userID);
-        let user=await userModel.findById(id.userID)
+        let user=await userModel.findById(id)
         let subscribe_chaneels=user.subscribedUsers
-        // console.log(subscribe_chaneels);
+        // console.log('test',subscribe_chaneels);
 
         let list=await Promise.all(
             subscribe_chaneels.map(async(channelId)=>{
