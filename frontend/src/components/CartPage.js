@@ -94,7 +94,16 @@ function CartPage({ type }) {
          {/* style:width=200px */}
          <div style={{ width: '15%' }}><SideBar></SideBar></div>
          <div className="cartBox" style={{ color: 'white' }}>
-            {(videos.length===0)? <h2 style={{fontFamily:'Oswald, sans-serif'}}>No videos</h2> : videos.map((data) =>
+            {(videos.length===0)? 
+               // <h2 style={{fontFamily:'Oswald, sans-serif'}}>No videos</h2> 
+                <>
+                  <div class="spinner-border" role="status" style={{ margin: '50% 5% 0px 100%' }} >
+                     <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <p style={{ width: '100%', margin: '50% 5% 0px 10%', fontSize: '20px' }}>Loading Please wait. It will take time...........</p>
+               </>
+               :
+               videos.map((data) =>
                <>
                   <div className="carts" onClick={() => {
                      if (loginStatus === false) {
